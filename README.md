@@ -1,7 +1,5 @@
-# EXPERIMENT--07-SQUARE-WAVE-GENERATION-AT-THE-OUTPUT-PIN-USING-TIMER
+# EXPERIMENT- 07 SQUARE WAVE GENERATION AT THE OUTPUT PIN USING TIMER
 
-## NAME: M THEJESWARAN
-## REG NO: 212223240168
 ### Aim:
 To generate a PWM wave at the timer pin output and  simuate it on  proteus using an virtual oscilloscope  
 
@@ -189,11 +187,13 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-    MX_TIM2_Init();
-    /* USER CODE BEGIN 2 */
-    HAL_TIM_Base_Start(&htim2);
-    HAL_TIM_PWM_Init(&htim2);
-    HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
+  MX_TIM2_Init();
+  /* USER CODE BEGIN 2 */
+
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
@@ -262,9 +262,9 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 1;
+  htim2.Init.Prescaler = 0;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 5000;
+  htim2.Init.Period = 1000;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -287,7 +287,7 @@ static void MX_TIM2_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 3750;
+  sConfigOC.Pulse = 500;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
@@ -352,103 +352,83 @@ void assert_failed(uint8_t *file, uint32_t line)
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 
+
+
 ```
 
 
-
-
-## Output screen shots of proteus  :
-
-![WhatsApp Image 2025-11-03 at 14 08 56_ceffc72b](https://github.com/user-attachments/assets/3f2f80b2-f674-4be0-b4ef-41e5a0a38489)
-
-![WhatsApp Image 2025-11-03 at 14 12 17_80821287](https://github.com/user-attachments/assets/5349ba02-4aec-4aaa-86e6-4cc296d5c565)
-
-![WhatsApp Image 2025-11-03 at 14 16 44_36b5e78c](https://github.com/user-attachments/assets/f7f121f3-2b0f-4599-b481-1d68b0ba3f27)
-
-
-<img width="1919" height="1198" alt="image" src="https://github.com/user-attachments/assets/fb914665-45e1-40d1-b312-a06a96f0b563" />
-
- 
-
-
- ## CIRCUIT DIAGRAM (EXPORT THE GRAPHICS TO PDF AND ADD THE SCREEN SHOT HERE): 
-
-<img width="686" height="577" alt="image" src="https://github.com/user-attachments/assets/34473327-d28c-41ff-a127-5dd678ab309d" />
+## OUTPUT :
+<img width="1230" height="840" alt="image" src="https://github.com/user-attachments/assets/04f1c380-b804-468e-a078-b156baf3457a" />
 
 
 
 ## DUTY CYCLE AND FREQUENCY CALCULATION 
-FOR PULSE AT 2500
+FOR PULSE AT 500
+![441193740-af0e010e-758f-4d26-a6ce-c9466182d350](https://github.com/user-attachments/assets/2ee94cbc-79d8-4d96-a336-d4b94cd19dfb)
 
-TON = 6.2 x 0.1
-    = 0.62
-    
-TOFF= 3 x 0.1
-    = 0.3
-    
+
+```
+TON = 3 x 10 x 10^-6
+    = 0.00003
+TOFF=0.00003
 TOTAL TIME = TON + TOFF
-           = 0.62+0.3
-           = 0.92
-           
+           = 0.00003+0.00003 
+           = 0.00006
+FREQUENCY = 1/(TOTAL TIME) 
+          =1/0.00006 
+          = 16 kHz
+DUTY CYCLE = TON /(TON+TOFF)
+           = 0.00003/0.00006
+           = 0.5
+      IN % =0.5*100 
+           = 50 %
+```
+
+
+FOR PULSE AT 700
+![441193979-3a401d6b-7849-421a-b1f7-ca489800fe11](https://github.com/user-attachments/assets/5e3fa348-50e6-4658-a06a-3daa89ec9be1)
+
+```
+TON = 4 x 10 x 10^-6
+    = 0.00004
+TOFF= 2 x 10 x 10^-6
+    = 0.00002
+TOTAL TIME = TON + TOFF
+           = 0.00004+0.00002
+           = 0.00006
 FREQUENCY = 1/(TOTAL TIME)
-          = 1.92
-          
-DUTY RATIO = TON /(TON+TOFF)
-           = 0.62/0.92
-           = 0.67
-      
-
-FOR PULSE AT 1250
-
-TON = 2.5 x 0.1
-    = 0.25
-    
-TOFF= 4.5 x 0.1
-    = 0.45
-    
-TOTAL TIME = TON + TOFF
-           = 0.25+0.45
+          = 16 kHZ
+DUTY CYCLE = TON /(TON+TOFF)
+           = 0.00004/0.00006
            = 0.7
-           
-FREQUENCY = 1/(TOTAL TIME)
-          = 1.43
-          
-DUTY RATIO = TON /(TON+TOFF)
-           = 0.25/0.7
-           = 0.36
+      IN % =0.7*100 
+           = 70 %
+```
 
 
-FOR PULSE AT 3750
+FOR PULSE AT 900
+![441194179-aa29e670-19a7-4185-a1ea-ffbf7cd2c5a6](https://github.com/user-attachments/assets/ddcc1dca-1b88-4081-a930-06a4d2e77143)
 
-TON = 4.7 x 0.1
-    = 0.47
-
-    
-TOFF= 1.6 x 0.1
-    = 0.16
-
-    
+```
+TON = 1 x 50 x 10^-6
+    = 0.00005
+TOFF= 0.1 x 50 x 10^-6
+    = 0.000005
 TOTAL TIME = TON + TOFF
-           = 0.47+0.16
-           = 0.63
-
-           
+           = 0.00005 + 0.000005
+           = 0.000055
 FREQUENCY = 1/(TOTAL TIME)
-          = 1.59
-
-          
-DUTY RATIO = TON /(TON+TOFF)
-           = 0.47/0.63
-           = 1.1
+          = 18 kHz
+DUTY CYCLE = TON /(TON+TOFF)
+           = 0.00005/0.000055
+           = 0.9
+      IN % =0.9*100 
+           = 90 %
+```
 
 
 ## Result :
 A PWM Signal is generated using the following frequency and various duty cycles are simulated 
-
-
-
-
-
 
 
 
